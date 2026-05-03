@@ -1,0 +1,97 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type checkers / linters
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.pyre/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment & secrets (local overrides)
+.env
+.env.*
+!.env.example
+
+# PyTorch / ML artifacts (로컬 체크포인트·실험 산출물)
+*.pt
+*.pth
+*.ckpt
+*.onnx
+runs/
+lightning_logs/
+mlruns/
+wandb/
+
+# torchvision 등 기본 다운로드 경로
+data/
+
+# VS Code — 개인/로컬만 제외, 팀 공유 설정은 커밋 가능
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# VS Code Local History 등
+.history/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE (기타)
+.idea/
+*.swp
+*.swo
+*~
