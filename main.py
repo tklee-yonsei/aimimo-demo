@@ -10,7 +10,9 @@ Phase 4 demo — PyTorch MNIST training.
   AIMIMO_EXPERIMENT_ID: 실험 ID (logging 용, optional)
 """
 
+import gzip
 import os
+import shutil
 import time
 
 import torch
@@ -18,6 +20,31 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
+
+
+def prepare_data(input_dir: str) -> None:
+    """MinIO 에서 받은 .gz 파일을 압축 해제.
+
+    torchvision 의 datasets.MNIST(download=False) 는 raw folder 안에 압축 해제된 binary
+    (`train-images-idx3-ubyte` 등) 만 인식. .gz 파일을 곁에 압축 해제해 둔다.
+    """
+    raw_dir = os.path.join(input_dir, "MNIST", "raw")
+    if not os.path.isdir(raw_dir):
+        raise SystemExit(f"raw dir 없음: {raw_dir} — Init Container 의 mc cp 결과 확인")
+
+    extracted = 0
+    for fn in sorted(os.listdir(raw_dir)):
+        if not fn.endswith(".gz"):
+            continue
+        src = os.path.join(raw_dir, fn)
+        dst = src[:-3]  # .gz 제거
+        if os.path.exists(dst):
+            continue
+        with gzip.open(src, "rb") as fi, open(dst, "wb") as fo:
+            shutil.copyfileobj(fi, fo)
+        extracted += 1
+    if extracted:
+        print(f"  Extracted {extracted} .gz files in {raw_dir}")
 
 
 def main() -> None:
@@ -45,7 +72,10 @@ def main() -> None:
     print(f"  PyTorch   : {torch.__version__}")
     print()
 
-    # 데이터 로드 (download=False — Init Container 가 이미 fetch)
+    # 데이터 준비 — .gz → binary 압축 해제 (download=False 이므로 직접 처리)
+    prepare_data(input_dir)
+
+    # 데이터 로드
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,)),
