@@ -1,0 +1,13 @@
+# main3.py 용 — 딥러닝 없는 순수 Python 프로그램 (Prime / 에라토스테네스의 체).
+# PyTorch/CUDA 불필요하므로 가벼운 python slim 베이스 사용 (~50MB).
+FROM python:3.12-slim
+
+WORKDIR /app
+
+COPY main3.py .
+
+# 진행 print 가 사용자에게 즉시 보이게
+ENV PYTHONUNBUFFERED=1
+
+# limit 은 실행 시 인자로 전달: docker run <image> 100
+ENTRYPOINT ["python", "main3.py"]
